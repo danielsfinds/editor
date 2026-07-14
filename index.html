@@ -364,6 +364,7 @@
     <select id="filterBrand"><option value="">All brands</option></select>
     <select id="filterColor"><option value="">All colours</option></select>
     <select id="displayCurrency" title="Display currency">
+      <option value="CAD">$ CAD</option>
       <option value="CNY">¥ CNY</option>
       <option value="EUR">€ EUR</option>
       <option value="GBP">£ GBP</option>
@@ -405,6 +406,7 @@
           <option>Jeans</option>
           <option>Underwear</option>
           <option>Accessories</option>
+          <option>Hats</option>
           <option>Cologne</option>
           <option>Other</option>
         </select>
@@ -444,6 +446,7 @@
       <div class="price-row">
         <input type="text" id="f_price" placeholder="e.g. 120">
         <select id="f_currency">
+          <option value="CAD">CAD</option>
           <option value="CNY">CNY</option>
           <option value="EUR">EUR</option>
           <option value="GBP">GBP</option>
@@ -480,8 +483,8 @@ let editingId = null;
 let currentImageData = '';
 
 // Approximate exchange rates (value of 1 unit in GBP). Edit these if you want more precise rates.
-const RATES_TO_GBP = { GBP: 1, USD: 0.79, EUR: 0.855, CNY: 0.109, JPY: 0.0053, PLN: 0.2 };
-const CURRENCY_SYMBOL = { GBP: '£', USD: '$', EUR: '€', CNY: '¥', JPY: '¥', PLN: 'zł' };
+const RATES_TO_GBP = { GBP: 1, USD: 0.79, EUR: 0.855, CNY: 0.109, JPY: 0.0053, PLN: 0.2, CAD: 0.58 };
+const CURRENCY_SYMBOL = { GBP: '£', USD: '$', EUR: '€', CNY: '¥', JPY: '¥', PLN: 'zł', CAD: '$' };
 
 function convert(amount, from, to){
   const n = parseFloat(amount);
