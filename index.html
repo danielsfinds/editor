@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <title>Daniel's Finds — Items I've received in hand or they're from the most reputable sellers</title>
 <style>
   :root{
@@ -14,9 +17,23 @@
     --tag-yellow: #123655;
     --line: #2C5578;
     --card: #123655;
-    --radius: 2px;
-    --mono: "JetBrains Mono", "IBM Plex Mono", Menlo, Consolas, monospace;
-    --display: "Arial Narrow", "Helvetica Neue Condensed", "Oswald", sans-serif;
+    --btn-ink: #0B2540;
+    --radius: 12px;
+    --radius-sm: 6px;
+    --mono: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --display: "Poppins", "Segoe UI", sans-serif;
+  }
+  [data-theme="light"]{
+    --paper: #D6E6F2;
+    --paper-dark: #C3DAEA;
+    --ink: #0F2A47;
+    --ink-soft: #45607C;
+    --blaze: #0B3D6B;
+    --olive: #2E5C8A;
+    --tag-yellow: #7FB3D5;
+    --line: #A9C6DE;
+    --card: #F1F7FB;
+    --btn-ink: #F1F7FB;
   }
   *{box-sizing:border-box;}
   body{
@@ -27,7 +44,50 @@
     color:var(--ink);
     font-family:var(--mono);
     min-height:100vh;
+    transition:background .25s ease, color .25s ease;
   }
+  body, body *{
+    transition:background-color .2s ease, color .2s ease, border-color .2s ease;
+  }
+
+  /* THEME TOGGLE SWITCH */
+  .theme-toggle{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-left:8px;
+  }
+  .theme-toggle .theme-icon{font-size:14px;line-height:1;}
+  .switch{
+    position:relative;
+    display:inline-block;
+    width:42px;
+    height:23px;
+    flex-shrink:0;
+  }
+  .switch input{opacity:0;width:0;height:0;}
+  .switch .slider{
+    position:absolute;
+    cursor:pointer;
+    top:0;left:0;right:0;bottom:0;
+    background:var(--line);
+    border:1px solid var(--ink);
+    transition:.2s;
+    border-radius:999px;
+  }
+  .switch .slider:before{
+    position:absolute;
+    content:"";
+    height:15px;
+    width:15px;
+    right:3px;
+    bottom:3px;
+    background:var(--card);
+    transition:.2s;
+    border-radius:50%;
+  }
+  .switch input:checked + .slider{background:var(--blaze);}
+  .switch input:checked + .slider:before{transform:translateX(-19px);}
   .wrap{max-width:1180px;margin:0 auto;padding:28px 24px 80px;}
 
   /* HEADER — shipping manifest style */
@@ -44,14 +104,18 @@
   .title-block h1{
     font-family:var(--display);
     font-weight:800;
-    font-stretch:condensed;
-    letter-spacing:2px;
+    letter-spacing:1px;
     font-size:44px;
     margin:0;
     text-transform:uppercase;
     line-height:0.9;
   }
-  .title-block h1 span{color:var(--blaze);}
+  .title-block h1 span{
+    background:linear-gradient(90deg, var(--blaze), #B7D8EE);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
   .title-block .sub{
     font-size:11px;
     letter-spacing:2px;
@@ -85,6 +149,7 @@
     padding:12px;
     background:var(--paper-dark);
     border:1px solid var(--line);
+    border-radius:var(--radius);
   }
   .rail input[type="text"]{
     flex:1;
@@ -95,6 +160,7 @@
     font-family:var(--mono);
     font-size:13px;
     color:var(--ink);
+    border-radius:var(--radius-sm);
   }
   select{
     padding:9px 10px;
@@ -105,6 +171,7 @@
     color:var(--ink);
     text-transform:uppercase;
     letter-spacing:0.5px;
+    border-radius:var(--radius-sm);
   }
   .btn{
     padding:10px 18px;
@@ -115,9 +182,19 @@
     text-transform:uppercase;
     cursor:pointer;
     font-weight:700;
+    border-radius:var(--radius-sm);
   }
-  .btn-add{background:var(--blaze);color:var(--card);}
-  .btn-add:hover{background:#8FC0E3;}
+  .btn-add{
+    background:linear-gradient(135deg, var(--blaze), var(--olive));
+    color:var(--btn-ink);
+    box-shadow:0 2px 10px rgba(111,170,214,0.4);
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-add:hover{
+    background:linear-gradient(135deg, var(--olive), var(--blaze));
+    transform:translateY(-2px);
+    box-shadow:0 6px 16px rgba(111,170,214,0.55);
+  }
   .btn-ghost{background:transparent;border:1px solid var(--ink);color:var(--ink);}
   .btn-ghost:hover{background:var(--ink);color:var(--card);}
 
@@ -133,12 +210,15 @@
     position:relative;
     background:var(--card);
     border:1px solid var(--ink);
+    border-radius:var(--radius);
+    overflow:hidden;
     padding:0;
     display:flex;
     flex-direction:column;
-    transition:transform .15s ease;
+    box-shadow:0 4px 14px rgba(0,0,0,0.25);
+    transition:transform .2s ease, box-shadow .2s ease;
   }
-  .tag:hover{transform:translateY(-3px);}
+  .tag:hover{transform:translateY(-5px); box-shadow:0 10px 24px rgba(0,0,0,0.35), 0 0 0 1px var(--blaze);}
 
   .tag-img{
     height:320px;
@@ -152,40 +232,59 @@
     letter-spacing:1px;
     text-transform:uppercase;
   }
-  .tag-body{padding:12px 14px 14px;}
+  .tag-body{padding:12px 14px 14px; background:var(--blaze); color:var(--paper);}
   .tag-cat{
+    display:inline-block;
     font-size:10px;
     letter-spacing:1.5px;
     text-transform:uppercase;
-    color:var(--olive);
-    font-weight:700;
-    margin-bottom:4px;
+    color:#0B2540;
+    font-weight:800;
+    margin-bottom:8px;
+    padding:3px 9px;
+    border-radius:999px;
+    background:#B7D8EE;
   }
+  .tag-cat[data-cat="Shoes"]{background:#F4C15A;}
+  .tag-cat[data-cat="T-Shirts"]{background:#7FD9C4;}
+  .tag-cat[data-cat="Polo Shirts"]{background:#8FE0A8;}
+  .tag-cat[data-cat="Jerseys"]{background:#F49A9A;}
+  .tag-cat[data-cat="Longsleeves"]{background:#B9A3E8;}
+  .tag-cat[data-cat="Hoodies"]{background:#F4A661;}
+  .tag-cat[data-cat="Jackets"]{background:#E88FBE;}
+  .tag-cat[data-cat="Shorts"]{background:#8FD1E8;}
+  .tag-cat[data-cat="Joggers"]{background:#C7E88F;}
+  .tag-cat[data-cat="Jeans"]{background:#7FA8E8;}
+  .tag-cat[data-cat="Underwear"]{background:#F4D46A;}
+  .tag-cat[data-cat="Accessories"]{background:#D9B8F0;}
+  .tag-cat[data-cat="Hats"]{background:#6FD8D8;}
+  .tag-cat[data-cat="Cologne"]{background:#F0C89A;}
   .tag-name{
     font-family:var(--display);
     font-weight:800;
     font-size:16px;
     line-height:1.05;
     margin-bottom:2px;
+    color:var(--paper);
   }
   .tag-brand{
     font-size:12px;
-    color:var(--ink-soft);
+    color:var(--paper-dark);
     margin-bottom:10px;
   }
   .tag-meta{
     display:flex;
     justify-content:space-between;
     font-size:11px;
-    border-top:1px solid var(--line);
+    border-top:1px solid rgba(11,37,64,0.3);
     padding-top:8px;
-    color:var(--ink-soft);
+    color:var(--paper-dark);
     letter-spacing:0.5px;
   }
   .swatch{
     display:inline-block;
     width:9px;height:9px;
-    border:1px solid var(--ink);
+    border:1px solid var(--paper);
     margin-right:5px;
     vertical-align:middle;
   }
@@ -194,11 +293,11 @@
     gap:10px;
     margin-top:8px;
     padding-top:8px;
-    border-top:1px solid var(--line);
+    border-top:1px solid rgba(11,37,64,0.3);
   }
   .tag-links a{
     font-size:11px;
-    color:var(--blaze);
+    color:var(--paper);
     text-decoration:none;
     letter-spacing:0.5px;
     text-transform:uppercase;
@@ -221,6 +320,7 @@
     font-size:11px;
     line-height:1;
     cursor:pointer;
+    border-radius:var(--radius-sm);
     display:flex;align-items:center;justify-content:center;
   }
   .icon-btn:hover{background:var(--ink);color:var(--card);}
@@ -229,6 +329,7 @@
   .empty{
     grid-column:1/-1;
     border:2px dashed var(--ink);
+    border-radius:var(--radius);
     padding:60px 20px;
     text-align:center;
   }
@@ -246,6 +347,7 @@
   /* IMAGE PASTE ZONE */
   .paste-zone{
     border:1px dashed var(--ink);
+    border-radius:var(--radius);
     background:var(--paper);
     padding:14px;
     text-align:center;
@@ -256,6 +358,7 @@
     cursor:text;
     position:relative;
     min-height:280px;
+    overflow:hidden;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -277,6 +380,7 @@
     background:var(--card);
     cursor:pointer;
     font-size:11px;
+    border-radius:var(--radius-sm);
     display:flex;align-items:center;justify-content:center;
   }
   .price-row{display:grid;grid-template-columns:1fr 90px;gap:8px;}
@@ -294,6 +398,7 @@
   .modal{
     background:var(--card);
     border:1px solid var(--ink);
+    border-radius:var(--radius);
     width:100%;max-width:460px;
     max-height:90vh;
     overflow-y:auto;
@@ -326,6 +431,7 @@
     font-family:var(--mono);
     font-size:13px;
     color:var(--ink);
+    border-radius:var(--radius-sm);
   }
   .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
   .modal-actions{
@@ -336,6 +442,7 @@
     background:var(--ink);color:var(--card);
     padding:10px 18px;font-size:12px;letter-spacing:1px;
     text-transform:uppercase;
+    border-radius:var(--radius-sm);
     display:none;
     z-index:60;
   }
@@ -355,6 +462,14 @@
     <div class="manifest-stats">
       <div class="stat"><b id="statCount">0</b>Items</div>
       <div class="stat"><b id="statBrands">0</b>Brands</div>
+      <div class="theme-toggle">
+        <span class="theme-icon">☀️</span>
+        <label class="switch">
+          <input type="checkbox" id="themeSwitch">
+          <span class="slider"></span>
+        </label>
+        <span class="theme-icon">🌙</span>
+      </div>
     </div>
   </header>
 
@@ -632,7 +747,7 @@ function render(){
         ${i.image ? '' : 'No image'}
       </div>
       <div class="tag-body">
-        <div class="tag-cat">${escapeHtml(i.category || 'Uncategorized')}</div>
+        <div class="tag-cat" data-cat="${escapeHtml(i.category || '')}">${escapeHtml(i.category || 'Uncategorized')}</div>
         <div class="tag-name">${escapeHtml(i.name || 'Untitled')}</div>
         <div class="tag-brand">${escapeHtml(i.brand || '—')}</div>
         <div class="tag-meta">
@@ -789,6 +904,16 @@ document.getElementById('shuffleItems').addEventListener('click', async ()=>{
   await saveItems();
   render();
   showToast('Items shuffled');
+});
+
+const themeSwitch = document.getElementById('themeSwitch');
+const savedTheme = localStorage.getItem('theme-preference') || 'dark';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeSwitch.checked = savedTheme === 'light';
+themeSwitch.addEventListener('change', ()=>{
+  const theme = themeSwitch.checked ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('theme-preference', theme);
 });
 
 loadItems().then(populateFilters);
