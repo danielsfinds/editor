@@ -184,6 +184,12 @@
     font-weight:700;
     border-radius:var(--radius-sm);
   }
+  #filterCategory{
+    border-radius:999px;
+    border:2px solid #FFFFFF;
+    background:var(--paper);
+    font-weight:800;
+  }
   .btn-add{
     background:linear-gradient(135deg, var(--blaze), var(--olive));
     color:var(--btn-ink);
@@ -238,27 +244,28 @@
     font-size:10px;
     letter-spacing:1.5px;
     text-transform:uppercase;
-    color:#0B2540;
+    color:var(--ink);
     font-weight:800;
     margin-bottom:8px;
     padding:3px 9px;
     border-radius:999px;
-    background:#B7D8EE;
+    background:var(--paper);
+    border:2px solid #FFFFFF;
   }
-  .tag-cat[data-cat="Shoes"]{background:#F4C15A;}
-  .tag-cat[data-cat="T-Shirts"]{background:#7FD9C4;}
-  .tag-cat[data-cat="Polo Shirts"]{background:#8FE0A8;}
-  .tag-cat[data-cat="Jerseys"]{background:#F49A9A;}
-  .tag-cat[data-cat="Longsleeves"]{background:#B9A3E8;}
-  .tag-cat[data-cat="Hoodies"]{background:#F4A661;}
-  .tag-cat[data-cat="Jackets"]{background:#E88FBE;}
-  .tag-cat[data-cat="Shorts"]{background:#8FD1E8;}
-  .tag-cat[data-cat="Joggers"]{background:#C7E88F;}
-  .tag-cat[data-cat="Jeans"]{background:#7FA8E8;}
-  .tag-cat[data-cat="Underwear"]{background:#F4D46A;}
-  .tag-cat[data-cat="Accessories"]{background:#D9B8F0;}
-  .tag-cat[data-cat="Hats"]{background:#6FD8D8;}
-  .tag-cat[data-cat="Cologne"]{background:#F0C89A;}
+  .tag-cat[data-cat="Shoes"]{color:#E0A83F;}
+  .tag-cat[data-cat="T-Shirts"]{color:#E0574A;}
+  .tag-cat[data-cat="Polo Shirts"]{color:#3FAF6B;}
+  .tag-cat[data-cat="Jerseys"]{color:#E0568C;}
+  .tag-cat[data-cat="Longsleeves"]{color:#8A5FD9;}
+  .tag-cat[data-cat="Hoodies"]{color:#E0793A;}
+  .tag-cat[data-cat="Jackets"]{color:#C94FAE;}
+  .tag-cat[data-cat="Shorts"]{color:#D9B93A;}
+  .tag-cat[data-cat="Joggers"]{color:#8FBF3A;}
+  .tag-cat[data-cat="Jeans"]{color:#A87C4F;}
+  .tag-cat[data-cat="Underwear"]{color:#E0806A;}
+  .tag-cat[data-cat="Accessories"]{color:#6F4FD9;}
+  .tag-cat[data-cat="Hats"]{color:#D94F4F;}
+  .tag-cat[data-cat="Cologne"]{color:#B0A83A;}
   .tag-name{
     font-family:var(--display);
     font-weight:800;
@@ -288,14 +295,7 @@
     margin-right:5px;
     vertical-align:middle;
   }
-  .tag-links{
-    display:flex;
-    gap:10px;
-    margin-top:8px;
-    padding-top:8px;
-    border-top:1px solid rgba(11,37,64,0.3);
-  }
-  .tag-links a{
+  .tag-link-inline{
     font-size:11px;
     color:var(--paper);
     text-decoration:none;
@@ -303,7 +303,7 @@
     text-transform:uppercase;
     font-weight:700;
   }
-  .tag-links a:hover{text-decoration:underline;}
+  .tag-link-inline:hover{text-decoration:underline;}
   .tag-actions{
     position:absolute;
     top:8px;right:8px;
@@ -747,20 +747,15 @@ function render(){
         ${i.image ? '' : 'No image'}
       </div>
       <div class="tag-body">
-        <div class="tag-cat" data-cat="${escapeHtml(i.category || '')}">${escapeHtml(i.category || 'Uncategorized')}</div>
         <div class="tag-name">${escapeHtml(i.name || 'Untitled')}</div>
-        <div class="tag-brand">${escapeHtml(i.brand || '—')}</div>
         <div class="tag-meta">
-          <span><span class="swatch" style="background:${colorToSwatch(i.color)}"></span>${escapeHtml(i.color||'—')}</span>
           <span>${(() => {
             if(!i.price) return '—';
             const converted = convert(i.price, i.currency || 'GBP', displayCurrency);
             return converted !== null ? formatMoney(converted, displayCurrency) : '—';
           })()}</span>
+          ${i.link1 ? `<a class="tag-link-inline" href="${escapeHtml(i.link1)}" target="_blank" rel="noopener noreferrer">🔗 Link</a>` : ''}
         </div>
-        ${i.link1 ? `<div class="tag-links">
-          <a href="${escapeHtml(i.link1)}" target="_blank" rel="noopener noreferrer">Link ↗</a>
-        </div>` : ''}
       </div>
     </div>
   `).join('');
@@ -883,7 +878,27 @@ document.getElementById('openAdd').addEventListener('click', ()=> openModal(null
 document.getElementById('cancelModal').addEventListener('click', closeModal);
 document.getElementById('saveEntry').addEventListener('click', saveEntry);
 document.getElementById('search').addEventListener('input', render);
-document.getElementById('filterCategory').addEventListener('change', render);
+const CATEGORY_COLORS = {
+  'Shoes':'#E0A83F', 'T-Shirts':'#E0574A', 'Polo Shirts':'#3FAF6B', 'Jerseys':'#E0568C',
+  'Longsleeves':'#8A5FD9', 'Hoodies':'#E0793A', 'Jackets':'#C94FAE', 'Shorts':'#D9B93A',
+  'Joggers':'#8FBF3A', 'Jeans':'#A87C4F', 'Underwear':'#E0806A', 'Accessories':'#6F4FD9',
+  'Hats':'#D94F4F', 'Cologne':'#B0A83A'
+};
+function updateCategoryFilterColor(){
+  const sel = document.getElementById('filterCategory');
+  const color = CATEGORY_COLORS[sel.value];
+  if(color){
+    sel.style.color = color;
+    sel.style.borderColor = color;
+  } else {
+    sel.style.color = '';
+    sel.style.borderColor = '';
+  }
+}
+document.getElementById('filterCategory').addEventListener('change', ()=>{
+  updateCategoryFilterColor();
+  render();
+});
 document.getElementById('filterBrand').addEventListener('change', render);
 document.getElementById('filterColor').addEventListener('change', render);
 document.getElementById('displayCurrency').addEventListener('change', render);
@@ -892,6 +907,7 @@ document.getElementById('clearFilters').addEventListener('click', ()=>{
   document.getElementById('filterCategory').value='';
   document.getElementById('filterBrand').value='';
   document.getElementById('filterColor').value='';
+  updateCategoryFilterColor();
   render();
 });
 overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeModal(); });
