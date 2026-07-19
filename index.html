@@ -488,108 +488,12 @@
       <option value="PLN">zł PLN</option>
       <option value="USD" selected>$ USD</option>
     </select>
-    <button class="btn btn-ghost" id="shuffleItems">Shuffle</button>
     <button class="btn btn-ghost" id="clearFilters">Clear</button>
-    <button class="btn btn-add" id="openAdd">+ Log new item</button>
   </div>
 
   <div class="grid" id="grid"></div>
 </div>
 
-<div class="overlay" id="overlay">
-  <div class="modal">
-    <h2 id="modalTitle">Log a new item</h2>
-    <div class="field">
-      <label>Name / model</label>
-      <input type="text" id="f_name" placeholder="e.g. Air Max 1 '86">
-    </div>
-    <div class="row2">
-      <div class="field">
-        <label>Brand</label>
-        <input type="text" id="f_brand" placeholder="e.g. Nike">
-      </div>
-      <div class="field">
-        <label>Category</label>
-        <select id="f_category">
-          <option>Shoes</option>
-          <option>T-Shirts</option>
-          <option>Jerseys</option>
-          <option>Polo Shirts</option>
-          <option>Longsleeves</option>
-          <option>Hoodies</option>
-          <option>Jackets</option>
-          <option>Shorts</option>
-          <option>Joggers</option>
-          <option>Jeans</option>
-          <option>Underwear</option>
-          <option>Accessories</option>
-          <option>Hats</option>
-          <option>Cologne</option>
-          <option>Other</option>
-        </select>
-      </div>
-    </div>
-    <div class="field">
-      <label>Colours</label>
-      <select id="f_color">
-        <option value="">Select a colour...</option>
-        <option>Black</option>
-        <option>White</option>
-        <option>Off White</option>
-        <option>Cream</option>
-        <option>Beige</option>
-        <option>Tan</option>
-        <option>Grey</option>
-        <option>Navy</option>
-        <option>Blue</option>
-        <option>Light Blue</option>
-        <option>Teal</option>
-        <option>Green</option>
-        <option>Olive</option>
-        <option>Khaki</option>
-        <option>Yellow</option>
-        <option>Gold</option>
-        <option>Orange</option>
-        <option>Red</option>
-        <option>Maroon</option>
-        <option>Pink</option>
-        <option>Purple</option>
-        <option>Brown</option>
-        <option>Multi</option>
-      </select>
-    </div>
-    <div class="field">
-      <label>Price paid</label>
-      <div class="price-row">
-        <input type="text" id="f_price" placeholder="e.g. 120">
-        <select id="f_currency">
-          <option value="AUD">AUD</option>
-          <option value="CAD">CAD</option>
-          <option value="CNY">CNY</option>
-          <option value="EUR">EUR</option>
-          <option value="GBP">GBP</option>
-          <option value="JPY">JPY</option>
-          <option value="PLN">PLN</option>
-          <option value="USD">USD</option>
-        </select>
-      </div>
-    </div>
-    <div class="field">
-      <label>Link</label>
-      <input type="text" id="f_link1" placeholder="https://...">
-    </div>
-    <div class="field">
-      <label>Image (paste or upload)</label>
-      <div class="paste-zone" id="pasteZone" tabindex="0">
-        <span id="pasteHint">Click here, then paste an image (Ctrl/Cmd+V) — or <label for="fileInput" style="text-decoration:underline;cursor:pointer;">choose a file</label></span>
-        <input type="file" id="fileInput" accept="image/*" style="display:none;">
-      </div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" id="cancelModal">Cancel</button>
-      <button class="btn btn-add" id="saveEntry">Save entry</button>
-    </div>
-  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -739,10 +643,6 @@ function render(){
 
   grid.innerHTML = filtered.map(i => `
     <div class="tag" data-id="${i.id}">
-      <div class="tag-actions">
-        <button class="icon-btn" onclick="editItem('${i.id}')">✎</button>
-        <button class="icon-btn" onclick="deleteItem('${i.id}')">✕</button>
-      </div>
       <div class="tag-img" style="${i.image ? `background-image:url('${escapeHtml(i.image)}')` : ''}">
         ${i.image ? '' : 'No image'}
       </div>
@@ -761,122 +661,6 @@ function render(){
   `).join('');
 }
 
-function openModal(item){
-  editingId = item ? item.id : null;
-  document.getElementById('modalTitle').textContent = item ? 'Edit item' : 'Log a new item';
-  document.getElementById('f_name').value = item?.name || '';
-  document.getElementById('f_brand').value = item?.brand || '';
-  document.getElementById('f_category').value = item?.category || 'Shoes';
-  document.getElementById('f_color').value = item?.color || '';
-  document.getElementById('f_price').value = item?.price || '';
-  document.getElementById('f_currency').value = item?.currency || 'CNY';
-  document.getElementById('f_link1').value = item?.link1 || '';
-  currentImageData = item?.image || '';
-  renderPastePreview();
-  overlay.classList.add('open');
-}
-function closeModal(){ overlay.classList.remove('open'); editingId = null; }
-
-function renderPastePreview(){
-  const zone = document.getElementById('pasteZone');
-  if(currentImageData){
-    zone.classList.add('has-image');
-    zone.innerHTML = `<img src="${currentImageData}" alt="Preview"><button type="button" class="remove-img" id="removeImg">✕</button>`;
-  } else {
-    zone.classList.remove('has-image');
-    zone.innerHTML = `<span id="pasteHint">Click here, then paste an image (Ctrl/Cmd+V) — or <label for="fileInput" style="text-decoration:underline;cursor:pointer;">choose a file</label></span><input type="file" id="fileInput" accept="image/*" style="display:none;">`;
-    document.getElementById('fileInput').addEventListener('change', handleFileInput);
-  }
-  if(currentImageData){
-    document.getElementById('removeImg').addEventListener('click', (e)=>{
-      e.stopPropagation();
-      currentImageData = '';
-      renderPastePreview();
-    });
-  }
-}
-
-function readFileAsDataUrl(file){
-  return new Promise((resolve, reject)=>{
-    const reader = new FileReader();
-    reader.onload = ()=> resolve(reader.result);
-    reader.onerror = ()=> reject(new Error('Could not read file'));
-    reader.readAsDataURL(file);
-  });
-}
-
-async function handleFileInput(e){
-  const file = e.target.files && e.target.files[0];
-  if(!file) return;
-  try{
-    currentImageData = await readFileAsDataUrl(file);
-    renderPastePreview();
-  }catch(err){
-    showToast('Could not load image');
-  }
-}
-
-document.getElementById('pasteZone').addEventListener('paste', async (e)=>{
-  const clipboardItems = e.clipboardData && e.clipboardData.items;
-  if(!clipboardItems) return;
-  for(const clipItem of clipboardItems){
-    if(clipItem.type && clipItem.type.startsWith('image/')){
-      const file = clipItem.getAsFile();
-      if(file){
-        try{
-          currentImageData = await readFileAsDataUrl(file);
-          renderPastePreview();
-        }catch(err){
-          showToast('Could not load pasted image');
-        }
-      }
-      break;
-    }
-  }
-});
-document.getElementById('fileInput').addEventListener('change', handleFileInput);
-
-async function saveEntry(){
-  const name = document.getElementById('f_name').value.trim();
-  if(!name){ showToast('Name is required'); return; }
-  const entry = {
-    id: editingId || uid(),
-    name,
-    brand: document.getElementById('f_brand').value.trim(),
-    category: document.getElementById('f_category').value,
-    color: document.getElementById('f_color').value.trim(),
-    price: document.getElementById('f_price').value.trim(),
-    currency: document.getElementById('f_currency').value,
-    link1: document.getElementById('f_link1').value.trim(),
-    image: currentImageData,
-  };
-  if(editingId){
-    items = items.map(i => i.id === editingId ? entry : i);
-  } else {
-    items.push(entry);
-  }
-  await saveItems();
-  populateFilters();
-  render();
-  closeModal();
-  showToast(editingId ? 'Entry updated' : 'Item logged');
-}
-
-window.editItem = function(id){
-  const item = items.find(i=>i.id===id);
-  if(item) openModal(item);
-};
-window.deleteItem = async function(id){
-  items = items.filter(i=>i.id!==id);
-  await saveItems();
-  populateFilters();
-  render();
-  showToast('Entry removed');
-};
-
-document.getElementById('openAdd').addEventListener('click', ()=> openModal(null));
-document.getElementById('cancelModal').addEventListener('click', closeModal);
-document.getElementById('saveEntry').addEventListener('click', saveEntry);
 document.getElementById('search').addEventListener('input', render);
 const CATEGORY_COLORS = {
   'Shoes':'#E0A83F', 'T-Shirts':'#E0574A', 'Polo Shirts':'#3FAF6B', 'Jerseys':'#E0568C',
@@ -909,17 +693,6 @@ document.getElementById('clearFilters').addEventListener('click', ()=>{
   document.getElementById('filterColor').value='';
   updateCategoryFilterColor();
   render();
-});
-overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeModal(); });
-
-document.getElementById('shuffleItems').addEventListener('click', async ()=>{
-  for(let i = items.length - 1; i > 0; i--){
-    const j = Math.floor(Math.random() * (i + 1));
-    [items[i], items[j]] = [items[j], items[i]];
-  }
-  await saveItems();
-  render();
-  showToast('Items shuffled');
 });
 
 const themeSwitch = document.getElementById('themeSwitch');
