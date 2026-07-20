@@ -5,15 +5,269 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<title>Daniel's Finds — Read Only</title>
+<title>Daniel's Finds — Items I've received in hand or they're from the most reputable sellers</title>
 
 <style>
-/* KEEP ALL YOUR EXISTING CSS EXACTLY AS IS */
+  /* YOUR ORIGINAL CSS — UNCHANGED */
+  :root{
+    --paper: #0B2540;
+    --paper-dark: #081C33;
+    --ink: #D6E6F2;
+    --ink-soft: #9AC0DD;
+    --blaze: #6FAAD6;
+    --olive: #4A8FC2;
+    --tag-yellow: #123655;
+    --line: #2C5578;
+    --card: #123655;
+    --btn-ink: #0B2540;
+    --radius: 12px;
+    --radius-sm: 999px;
+    --mono: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --display: "Poppins", "Segoe UI", sans-serif;
+  }
+  [data-theme="light"]{
+    --paper: #D6E6F2;
+    --paper-dark: #C3DAEA;
+    --ink: #0F2A47;
+    --ink-soft: #45607C;
+    --blaze: #0B3D6B;
+    --olive: #2E5C8A;
+    --tag-yellow: #7FB3D5;
+    --line: #A9C6DE;
+    --card: #F1F7FB;
+    --btn-ink: #F1F7FB;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,0,0,0.025) 40px);
+    color:var(--ink);
+    font-family:var(--mono);
+    min-height:100vh;
+    transition:background .25s ease, color .25s ease;
+  }
+  body, body *{
+    transition:background-color .2s ease, color .2s ease, border-color .2s ease;
+  }
+
+  /* THEME TOGGLE SWITCH */
+  .theme-toggle{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-left:8px;
+  }
+  .theme-toggle .theme-icon{font-size:14px;line-height:1;}
+  .switch{
+    position:relative;
+    display:inline-block;
+    width:42px;
+    height:23px;
+    flex-shrink:0;
+  }
+  .switch input{opacity:0;width:0;height:0;}
+  .switch .slider{
+    position:absolute;
+    cursor:pointer;
+    top:0;left:0;right:0;bottom:0;
+    background:var(--line);
+    border:1px solid var(--ink);
+    transition:.2s;
+    border-radius:999px;
+  }
+  .switch .slider:before{
+    position:absolute;
+    content:"";
+    height:15px;
+    width:15px;
+    right:3px;
+    bottom:3px;
+    background:var(--card);
+    transition:.2s;
+    border-radius:50%;
+  }
+  .switch input:checked + .slider{background:var(--blaze);}
+  .switch input:checked + .slider:before{transform:translateX(-19px);}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 24px 80px;}
+
+  /* HEADER */
+  header{
+    border-bottom:3px solid var(--ink);
+    padding-bottom:18px;
+    margin-bottom:22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .title-block h1{
+    font-family:var(--display);
+    font-weight:800;
+    letter-spacing:1px;
+    font-size:44px;
+    margin:0;
+    text-transform:uppercase;
+    line-height:0.9;
+  }
+  .title-block h1 span{
+    background:linear-gradient(90deg, var(--blaze), #B7D8EE);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .title-block .sub{
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-top:6px;
+  }
+  .manifest-stats{
+    display:flex;
+    gap:22px;
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+  }
+  .manifest-stats .stat b{
+    display:block;
+    font-family:var(--display);
+    font-size:26px;
+    font-weight:800;
+    letter-spacing:0;
+    color:var(--ink);
+  }
+
+  /* CONTROL RAIL */
+  .rail{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+    margin-bottom:24px;
+    padding:12px;
+    background:var(--paper-dark);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+  }
+  .rail input[type="text"]{
+    flex:1;
+    min-width:160px;
+    padding:9px 10px;
+    border:1px solid var(--ink);
+    background:var(--card);
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--ink);
+    border-radius:var(--radius-sm);
+  }
+  select{
+    padding:9px 10px;
+    border:1px solid var(--ink);
+    background:var(--card);
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--ink);
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    border-radius:var(--radius-sm);
+  }
+
+  /* GRID */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+    gap:16px;
+  }
+
+  /* TAG CARD */
+  .tag{
+    position:relative;
+    background:var(--card);
+    border:1px solid var(--ink);
+    border-radius:var(--radius);
+    overflow:hidden;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    box-shadow:0 4px 14px rgba(0,0,0,0.25);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .tag:hover{
+    transform:translateY(-5px);
+    box-shadow:0 10px 24px rgba(0,0,0,0.35), 0 0 0 1px var(--blaze);
+  }
+  .tag-img{
+    height:320px;
+    background:var(--paper-dark) center/cover no-repeat;
+    border-bottom:1px dashed var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--ink-soft);
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+  }
+  .tag-body{
+    padding:12px 14px 14px;
+    background:var(--blaze);
+    color:var(--paper);
+  }
+  .tag-name{
+    font-family:var(--display);
+    font-weight:800;
+    font-size:16px;
+    line-height:1.05;
+    margin-bottom:2px;
+    color:var(--paper);
+  }
+  .tag-meta{
+    display:flex;
+    justify-content:space-between;
+    font-size:11px;
+    border-top:1px solid rgba(11,37,64,0.3);
+    padding-top:8px;
+    color:var(--paper-dark);
+    letter-spacing:0.5px;
+  }
+  .tag-link-inline{
+    font-size:11px;
+    color:var(--paper);
+    text-decoration:none;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    font-weight:700;
+  }
+  .tag-link-inline:hover{text-decoration:underline;}
+
+  /* EMPTY STATE */
+  .empty{
+    grid-column:1/-1;
+    border:2px dashed var(--ink);
+    border-radius:var(--radius);
+    padding:60px 20px;
+    text-align:center;
+  }
+  .empty .stamp{
+    font-family:var(--display);
+    font-size:26px;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:var(--ink-soft);
+    margin-bottom:8px;
+  }
+  .empty p{font-size:12px;color:var(--ink-soft);margin-bottom:16px;}
 </style>
 </head>
 
 <body>
 <div class="wrap">
+
   <header>
     <div class="title-block">
       <h1>Daniel's <span>Finds</span></h1>
@@ -40,7 +294,7 @@
     <select id="filterCategory"><option value="">All categories</option></select>
     <select id="filterBrand"><option value="">All brands</option></select>
     <select id="filterColor"><option value="">All colours</option></select>
-    <select id="displayCurrency" title="Display currency">
+    <select id="displayCurrency">
       <option value="AUD">$ AUD</option>
       <option value="CAD">$ CAD</option>
       <option value="CNY">¥ CNY</option>
@@ -53,14 +307,17 @@
   </div>
 
   <div class="grid" id="grid"></div>
+
 </div>
 
 <script>
+/* YOUR ORIGINAL JS — WITH ONLY EDIT/DELETE/ADD REMOVED */
+
 const DB_NAME = 'stockroomDB';
 const STORE_NAME = 'items';
 let items = [];
 
-// Currency conversion tables
+// Currency conversion
 const RATES_TO_GBP = { GBP: 1, USD: 0.79, EUR: 0.855, CNY: 0.109, JPY: 0.0053, PLN: 0.2, CAD: 0.58, AUD: 0.52 };
 const CURRENCY_SYMBOL = { GBP: '£', USD: '$', EUR: '€', CNY: '¥', JPY: '¥', PLN: 'zł', CAD: '$', AUD: '$' };
 
@@ -176,6 +433,7 @@ function render(){
     </div>
   `).join('');
 }
+
 document.getElementById('search').addEventListener('input', render);
 document.getElementById('filterCategory').addEventListener('change', render);
 document.getElementById('filterBrand').addEventListener('change', render);
@@ -193,8 +451,9 @@ themeSwitch.addEventListener('change', ()=>{
   localStorage.setItem('theme-preference', theme);
 });
 
-// Load items from IndexedDB
+// Load items
 loadItems();
 </script>
+
 </body>
 </html>
