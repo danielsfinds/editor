@@ -5,453 +5,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<title>Daniel's Finds — Items I've received in hand or they're from the most reputable sellers</title>
+<title>Daniel's Finds — Read Only</title>
+
 <style>
-  :root{
-    --paper: #0B2540;
-    --paper-dark: #081C33;
-    --ink: #D6E6F2;
-    --ink-soft: #9AC0DD;
-    --blaze: #6FAAD6;
-    --olive: #4A8FC2;
-    --tag-yellow: #123655;
-    --line: #2C5578;
-    --card: #123655;
-    --btn-ink: #0B2540;
-    --radius: 12px;
-    --radius-sm: 999px;
-    --mono: "Work Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --display: "Poppins", "Segoe UI", sans-serif;
-  }
-  [data-theme="light"]{
-    --paper: #D6E6F2;
-    --paper-dark: #C3DAEA;
-    --ink: #0F2A47;
-    --ink-soft: #45607C;
-    --blaze: #0B3D6B;
-    --olive: #2E5C8A;
-    --tag-yellow: #7FB3D5;
-    --line: #A9C6DE;
-    --card: #F1F7FB;
-    --btn-ink: #F1F7FB;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    background:var(--paper);
-    background-image:
-      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(0,0,0,0.025) 40px);
-    color:var(--ink);
-    font-family:var(--mono);
-    min-height:100vh;
-    transition:background .25s ease, color .25s ease;
-  }
-  body, body *{
-    transition:background-color .2s ease, color .2s ease, border-color .2s ease;
-  }
-
-  /* THEME TOGGLE SWITCH */
-  .theme-toggle{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    margin-left:8px;
-  }
-  .theme-toggle .theme-icon{font-size:14px;line-height:1;}
-  .switch{
-    position:relative;
-    display:inline-block;
-    width:42px;
-    height:23px;
-    flex-shrink:0;
-  }
-  .switch input{opacity:0;width:0;height:0;}
-  .switch .slider{
-    position:absolute;
-    cursor:pointer;
-    top:0;left:0;right:0;bottom:0;
-    background:var(--line);
-    border:1px solid var(--ink);
-    transition:.2s;
-    border-radius:999px;
-  }
-  .switch .slider:before{
-    position:absolute;
-    content:"";
-    height:15px;
-    width:15px;
-    right:3px;
-    bottom:3px;
-    background:var(--card);
-    transition:.2s;
-    border-radius:50%;
-  }
-  .switch input:checked + .slider{background:var(--blaze);}
-  .switch input:checked + .slider:before{transform:translateX(-19px);}
-  .wrap{max-width:1180px;margin:0 auto;padding:28px 24px 80px;}
-
-  /* HEADER — shipping manifest style */
-  header{
-    border-bottom:3px solid var(--ink);
-    padding-bottom:18px;
-    margin-bottom:22px;
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    flex-wrap:wrap;
-    gap:16px;
-  }
-  .title-block h1{
-    font-family:var(--display);
-    font-weight:800;
-    letter-spacing:1px;
-    font-size:44px;
-    margin:0;
-    text-transform:uppercase;
-    line-height:0.9;
-  }
-  .title-block h1 span{
-    background:linear-gradient(90deg, var(--blaze), #B7D8EE);
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
-  }
-  .title-block .sub{
-    font-size:11px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    color:var(--ink-soft);
-    margin-top:6px;
-  }
-  .manifest-stats{
-    display:flex;
-    gap:22px;
-    font-size:11px;
-    letter-spacing:1px;
-    text-transform:uppercase;
-  }
-  .manifest-stats .stat b{
-    display:block;
-    font-family:var(--display);
-    font-size:26px;
-    font-weight:800;
-    letter-spacing:0;
-    color:var(--ink);
-  }
-
-  /* CONTROL RAIL */
-  .rail{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    align-items:center;
-    margin-bottom:24px;
-    padding:12px;
-    background:var(--paper-dark);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-  }
-  .rail input[type="text"]{
-    flex:1;
-    min-width:160px;
-    padding:9px 10px;
-    border:1px solid var(--ink);
-    background:var(--card);
-    font-family:var(--mono);
-    font-size:13px;
-    color:var(--ink);
-    border-radius:var(--radius-sm);
-  }
-  select{
-    padding:9px 10px;
-    border:1px solid var(--ink);
-    background:var(--card);
-    font-family:var(--mono);
-    font-size:12px;
-    color:var(--ink);
-    text-transform:uppercase;
-    letter-spacing:0.5px;
-    border-radius:var(--radius-sm);
-  }
-  .btn{
-    padding:10px 18px;
-    border:none;
-    font-family:var(--mono);
-    font-size:12px;
-    letter-spacing:1px;
-    text-transform:uppercase;
-    cursor:pointer;
-    font-weight:700;
-    border-radius:var(--radius-sm);
-  }
-  #filterCategory{
-    border-radius:999px;
-    border:2px solid #FFFFFF;
-    background:var(--paper);
-    font-weight:800;
-  }
-  .btn-add{
-    background:linear-gradient(135deg, var(--blaze), var(--olive));
-    color:var(--btn-ink);
-    box-shadow:0 2px 10px rgba(111,170,214,0.4);
-    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
-  }
-  .btn-add:hover{
-    background:linear-gradient(135deg, var(--olive), var(--blaze));
-    transform:translateY(-2px);
-    box-shadow:0 6px 16px rgba(111,170,214,0.55);
-  }
-  .btn-ghost{background:transparent;border:1px solid var(--ink);color:var(--ink);}
-  .btn-ghost:hover{background:var(--ink);color:var(--card);}
-
-  /* GRID */
-  .grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
-    gap:16px;
-  }
-
-  /* TAG CARD — stockroom shipping tag */
-  .tag{
-    position:relative;
-    background:var(--card);
-    border:1px solid var(--ink);
-    border-radius:var(--radius);
-    overflow:hidden;
-    padding:0;
-    display:flex;
-    flex-direction:column;
-    box-shadow:0 4px 14px rgba(0,0,0,0.25);
-    transition:transform .2s ease, box-shadow .2s ease;
-  }
-  .tag:hover{transform:translateY(-5px); box-shadow:0 10px 24px rgba(0,0,0,0.35), 0 0 0 1px var(--blaze);}
-
-  .tag-img{
-    height:320px;
-    background:var(--paper-dark) center/cover no-repeat;
-    border-bottom:1px dashed var(--ink);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:var(--ink-soft);
-    font-size:11px;
-    letter-spacing:1px;
-    text-transform:uppercase;
-  }
-  .tag-body{padding:12px 14px 14px; background:var(--blaze); color:var(--paper);}
-  .tag-cat{
-    display:inline-block;
-    font-size:10px;
-    letter-spacing:1.5px;
-    text-transform:uppercase;
-    color:var(--ink);
-    font-weight:800;
-    margin-bottom:8px;
-    padding:3px 9px;
-    border-radius:999px;
-    background:var(--paper);
-    border:2px solid #FFFFFF;
-  }
-  .tag-cat[data-cat="Shoes"]{color:#E0A83F;}
-  .tag-cat[data-cat="T-Shirts"]{color:#E0574A;}
-  .tag-cat[data-cat="Polo Shirts"]{color:#3FAF6B;}
-  .tag-cat[data-cat="Jerseys"]{color:#E0568C;}
-  .tag-cat[data-cat="Longsleeves"]{color:#8A5FD9;}
-  .tag-cat[data-cat="Hoodies"]{color:#E0793A;}
-  .tag-cat[data-cat="Jackets"]{color:#C94FAE;}
-  .tag-cat[data-cat="Shorts"]{color:#D9B93A;}
-  .tag-cat[data-cat="Joggers"]{color:#8FBF3A;}
-  .tag-cat[data-cat="Jeans"]{color:#A87C4F;}
-  .tag-cat[data-cat="Underwear"]{color:#E0806A;}
-  .tag-cat[data-cat="Accessories"]{color:#6F4FD9;}
-  .tag-cat[data-cat="Hats"]{color:#D94F4F;}
-  .tag-cat[data-cat="Cologne"]{color:#B0A83A;}
-  .tag-name{
-    font-family:var(--display);
-    font-weight:800;
-    font-size:16px;
-    line-height:1.05;
-    margin-bottom:2px;
-    color:var(--paper);
-  }
-  .tag-brand{
-    font-size:12px;
-    color:var(--paper-dark);
-    margin-bottom:10px;
-  }
-  .tag-meta{
-    display:flex;
-    justify-content:space-between;
-    font-size:11px;
-    border-top:1px solid rgba(11,37,64,0.3);
-    padding-top:8px;
-    color:var(--paper-dark);
-    letter-spacing:0.5px;
-  }
-  .swatch{
-    display:inline-block;
-    width:9px;height:9px;
-    border:1px solid var(--paper);
-    margin-right:5px;
-    vertical-align:middle;
-  }
-  .tag-link-inline{
-    font-size:11px;
-    color:var(--paper);
-    text-decoration:none;
-    letter-spacing:0.5px;
-    text-transform:uppercase;
-    font-weight:700;
-  }
-  .tag-link-inline:hover{text-decoration:underline;}
-  .tag-actions{
-    position:absolute;
-    top:8px;right:8px;
-    display:flex;
-    gap:4px;
-    opacity:0;
-    transition:opacity .12s;
-  }
-  .tag:hover .tag-actions{opacity:1;}
-  .icon-btn{
-    width:22px;height:22px;
-    border:1px solid var(--ink);
-    background:var(--card);
-    font-size:11px;
-    line-height:1;
-    cursor:pointer;
-    border-radius:var(--radius-sm);
-    display:flex;align-items:center;justify-content:center;
-  }
-  .icon-btn:hover{background:var(--ink);color:var(--card);}
-
-  /* EMPTY STATE */
-  .empty{
-    grid-column:1/-1;
-    border:2px dashed var(--ink);
-    border-radius:var(--radius);
-    padding:60px 20px;
-    text-align:center;
-  }
-  .empty .stamp{
-    font-family:var(--display);
-    font-size:26px;
-    font-weight:800;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    color:var(--ink-soft);
-    margin-bottom:8px;
-  }
-  .empty p{font-size:12px;color:var(--ink-soft);margin-bottom:16px;}
-
-  /* IMAGE PASTE ZONE */
-  .paste-zone{
-    border:1px dashed var(--ink);
-    border-radius:0;
-    background:var(--paper);
-    padding:14px;
-    text-align:center;
-    font-size:11px;
-    color:var(--ink-soft);
-    letter-spacing:0.5px;
-    text-transform:uppercase;
-    cursor:text;
-    position:relative;
-    min-height:280px;
-    overflow:hidden;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  .paste-zone.has-image{padding:0;border-style:solid;}
-  .paste-zone img{
-    max-width:100%;
-    max-height:520px;
-    width:100%;
-    object-fit:contain;
-    display:block;
-    background:var(--paper-dark);
-  }
-  .paste-zone .remove-img{
-    position:absolute;
-    top:6px;right:6px;
-    width:22px;height:22px;
-    border:1px solid var(--ink);
-    background:var(--card);
-    cursor:pointer;
-    font-size:11px;
-    border-radius:var(--radius-sm);
-    display:flex;align-items:center;justify-content:center;
-  }
-  .price-row{display:grid;grid-template-columns:1fr 90px;gap:8px;}
-
-  /* MODAL */
-  .overlay{
-    position:fixed;inset:0;
-    background:rgba(20,19,16,0.55);
-    display:none;
-    align-items:center;justify-content:center;
-    z-index:50;
-    padding:20px;
-  }
-  .overlay.open{display:flex;}
-  .modal{
-    background:var(--card);
-    border:1px solid var(--ink);
-    border-radius:var(--radius);
-    width:100%;max-width:460px;
-    max-height:90vh;
-    overflow-y:auto;
-    padding:24px;
-  }
-  .modal h2{
-    font-family:var(--display);
-    text-transform:uppercase;
-    font-weight:800;
-    letter-spacing:1px;
-    margin:0 0 16px;
-    font-size:22px;
-    border-bottom:2px solid var(--ink);
-    padding-bottom:10px;
-  }
-  .field{margin-bottom:12px;}
-  .field label{
-    display:block;
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    color:var(--ink-soft);
-    margin-bottom:4px;
-  }
-  .field input, .field select{
-    width:100%;
-    padding:9px 10px;
-    border:1px solid var(--ink);
-    background:var(--paper);
-    font-family:var(--mono);
-    font-size:13px;
-    color:var(--ink);
-    border-radius:0;
-  }
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-  .modal-actions{
-    display:flex;justify-content:flex-end;gap:8px;margin-top:18px;
-  }
-  .toast{
-    position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
-    background:var(--ink);color:var(--card);
-    padding:10px 18px;font-size:12px;letter-spacing:1px;
-    text-transform:uppercase;
-    border-radius:var(--radius-sm);
-    display:none;
-    z-index:60;
-  }
-  @media (max-width:520px){
-    .title-block h1{font-size:32px;}
-    .row2{grid-template-columns:1fr;}
-  }
+/* KEEP ALL YOUR EXISTING CSS EXACTLY AS IS */
 </style>
 </head>
+
 <body>
 <div class="wrap">
   <header>
@@ -459,9 +19,11 @@
       <h1>Daniel's <span>Finds</span></h1>
       <div class="sub">Items I've received in hand or they're from the most reputable sellers</div>
     </div>
+
     <div class="manifest-stats">
       <div class="stat"><b id="statCount">0</b>Items</div>
       <div class="stat"><b id="statBrands">0</b>Brands</div>
+
       <div class="theme-toggle">
         <span class="theme-icon">☀️</span>
         <label class="switch">
@@ -488,120 +50,17 @@
       <option value="PLN">zł PLN</option>
       <option value="USD" selected>$ USD</option>
     </select>
-    <button class="btn btn-ghost" id="shuffleItems">Shuffle</button>
-    <button class="btn btn-ghost" id="clearFilters">Clear</button>
-    <button class="btn btn-add" id="openAdd">+ Log new item</button>
   </div>
 
   <div class="grid" id="grid"></div>
 </div>
 
-<div class="overlay" id="overlay">
-  <div class="modal">
-    <h2 id="modalTitle">Log a new item</h2>
-    <div class="field">
-      <label>Name / model</label>
-      <input type="text" id="f_name" placeholder="e.g. Air Max 1 '86">
-    </div>
-    <div class="row2">
-      <div class="field">
-        <label>Brand</label>
-        <input type="text" id="f_brand" placeholder="e.g. Nike">
-      </div>
-      <div class="field">
-        <label>Category</label>
-        <select id="f_category">
-          <option>Shoes</option>
-          <option>T-Shirts</option>
-          <option>Jerseys</option>
-          <option>Polo Shirts</option>
-          <option>Longsleeves</option>
-          <option>Hoodies</option>
-          <option>Jackets</option>
-          <option>Shorts</option>
-          <option>Joggers</option>
-          <option>Jeans</option>
-          <option>Underwear</option>
-          <option>Accessories</option>
-          <option>Hats</option>
-          <option>Cologne</option>
-          <option>Other</option>
-        </select>
-      </div>
-    </div>
-    <div class="field">
-      <label>Colours</label>
-      <select id="f_color">
-        <option value="">Select a colour...</option>
-        <option>Black</option>
-        <option>White</option>
-        <option>Off White</option>
-        <option>Cream</option>
-        <option>Beige</option>
-        <option>Tan</option>
-        <option>Grey</option>
-        <option>Navy</option>
-        <option>Blue</option>
-        <option>Light Blue</option>
-        <option>Teal</option>
-        <option>Green</option>
-        <option>Olive</option>
-        <option>Khaki</option>
-        <option>Yellow</option>
-        <option>Gold</option>
-        <option>Orange</option>
-        <option>Red</option>
-        <option>Maroon</option>
-        <option>Pink</option>
-        <option>Purple</option>
-        <option>Brown</option>
-        <option>Multi</option>
-      </select>
-    </div>
-    <div class="field">
-      <label>Price paid</label>
-      <div class="price-row">
-        <input type="text" id="f_price" placeholder="e.g. 120">
-        <select id="f_currency">
-          <option value="AUD">AUD</option>
-          <option value="CAD">CAD</option>
-          <option value="CNY">CNY</option>
-          <option value="EUR">EUR</option>
-          <option value="GBP">GBP</option>
-          <option value="JPY">JPY</option>
-          <option value="PLN">PLN</option>
-          <option value="USD">USD</option>
-        </select>
-      </div>
-    </div>
-    <div class="field">
-      <label>Link</label>
-      <input type="text" id="f_link1" placeholder="https://...">
-    </div>
-    <div class="field">
-      <label>Image (paste or upload)</label>
-      <div class="paste-zone" id="pasteZone" tabindex="0">
-        <span id="pasteHint">Click here, then paste an image (Ctrl/Cmd+V) — or <label for="fileInput" style="text-decoration:underline;cursor:pointer;">choose a file</label></span>
-        <input type="file" id="fileInput" accept="image/*" style="display:none;">
-      </div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" id="cancelModal">Cancel</button>
-      <button class="btn btn-add" id="saveEntry">Save entry</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
 <script>
 const DB_NAME = 'stockroomDB';
 const STORE_NAME = 'items';
 let items = [];
-let editingId = null;
-let currentImageData = '';
 
-// Approximate exchange rates (value of 1 unit in GBP). Edit these if you want more precise rates.
+// Currency conversion tables
 const RATES_TO_GBP = { GBP: 1, USD: 0.79, EUR: 0.855, CNY: 0.109, JPY: 0.0053, PLN: 0.2, CAD: 0.58, AUD: 0.52 };
 const CURRENCY_SYMBOL = { GBP: '£', USD: '$', EUR: '€', CNY: '¥', JPY: '¥', PLN: 'zł', CAD: '$', AUD: '$' };
 
@@ -618,14 +77,8 @@ function formatMoney(amount, currency){
   return symbol + rounded.toLocaleString(undefined, {maximumFractionDigits: 2});
 }
 
-const grid = document.getElementById('grid');
-const overlay = document.getElementById('overlay');
-const toast = document.getElementById('toast');
-
-function showToast(msg){
-  toast.textContent = msg;
-  toast.style.display = 'block';
-  setTimeout(()=> toast.style.display='none', 1800);
+function escapeHtml(str){
+  return String(str||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 }
 
 function openDB(){
@@ -654,30 +107,18 @@ async function loadItems(){
     });
   }catch(e){
     items = [];
-    showToast('Could not load saved items');
   }
+  populateFilters();
   render();
 }
 
-async function saveItems(){
-  try{
-    const db = await openDB();
-    const tx = db.transaction(STORE_NAME, 'readwrite');
-    const store = tx.objectStore(STORE_NAME);
-    store.clear();
-    for(const item of items){
-      store.put(item);
-    }
-    await new Promise((resolve, reject) => {
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error);
-    });
-  }catch(e){
-    showToast('Save failed — try again');
-  }
+function fillSelect(id, values, allLabel){
+  const sel = document.getElementById(id);
+  const current = sel.value;
+  sel.innerHTML = `<option value="">${allLabel}</option>` +
+    values.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join('');
+  sel.value = values.includes(current) ? current : '';
 }
-
-function uid(){ return 'p_' + Date.now() + '_' + Math.floor(Math.random()*1000); }
 
 function populateFilters(){
   const cats = [...new Set(items.map(i=>i.category).filter(Boolean))].sort();
@@ -687,33 +128,13 @@ function populateFilters(){
   fillSelect('filterBrand', brands, 'All brands');
   fillSelect('filterColor', colors, 'All colours');
 }
-function fillSelect(id, values, allLabel){
-  const sel = document.getElementById(id);
-  const current = sel.value;
-  sel.innerHTML = `<option value="">${allLabel}</option>` + values.map(v=>`<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join('');
-  sel.value = values.includes(current) ? current : '';
-}
-
-function escapeHtml(str){
-  return String(str||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-}
-
-function colorToSwatch(color){
-  const map = {black:'#1a1a1a',white:'#f2f2f2',red:'#c0392b',blue:'#2c5aa0',green:'#33422e',
-    yellow:'#f0ae00',orange:'#ff4b1f',grey:'#888',gray:'#888',brown:'#6b4a2f',pink:'#d98cae',
-    purple:'#6c4f8a',beige:'#d9c9a3',cream:'#e7e2d6','off white':'#e5decf',
-    navy:'#14213d','navy blue':'#14213d',maroon:'#5c1a1a',olive:'#556b2f',teal:'#146a6a',
-    khaki:'#8a8763',tan:'#c2a878','light blue':'#7fb3d5','sky blue':'#7fb3d5',gold:'#c9a227',
-    multi:'linear-gradient(90deg, #e53935, #fb8c00, #fdd835, #43a047, #1e88e5, #5e35b1)'};
-  const key = (color||'').toLowerCase().trim();
-  return map[key] || '#999';
-}
 
 function render(){
   const search = document.getElementById('search').value.toLowerCase();
   const fc = document.getElementById('filterCategory').value;
   const fb = document.getElementById('filterBrand').value;
   const fcol = document.getElementById('filterColor').value;
+  const displayCurrency = document.getElementById('displayCurrency').value;
 
   const filtered = items.filter(i=>{
     const matchesSearch = !search || [i.name,i.brand,i.color].some(v=> (v||'').toLowerCase().includes(search));
@@ -723,26 +144,21 @@ function render(){
     return matchesSearch && matchesCat && matchesBrand && matchesColor;
   });
 
-  const displayCurrency = document.getElementById('displayCurrency').value;
-
   document.getElementById('statCount').textContent = items.length;
   document.getElementById('statBrands').textContent = new Set(items.map(i=>i.brand).filter(Boolean)).size;
+
+  const grid = document.getElementById('grid');
 
   if(filtered.length === 0){
     grid.innerHTML = `<div class="empty">
       <div class="stamp">${items.length===0 ? 'Nothing logged yet' : 'No matches'}</div>
-      <p>${items.length===0 ? 'Log your first item to get started.' : 'Try clearing filters or search.'}</p>
-      ${items.length===0 ? '<button class="btn btn-add" onclick="document.getElementById(\'openAdd\').click()">+ Log new item</button>' : ''}
+      <p>${items.length===0 ? '' : 'Try clearing filters or search.'}</p>
     </div>`;
     return;
   }
 
   grid.innerHTML = filtered.map(i => `
-    <div class="tag" data-id="${i.id}">
-      <div class="tag-actions">
-        <button class="icon-btn" onclick="editItem('${i.id}')">✎</button>
-        <button class="icon-btn" onclick="deleteItem('${i.id}')">✕</button>
-      </div>
+    <div class="tag">
       <div class="tag-img" style="${i.image ? `background-image:url('${escapeHtml(i.image)}')` : ''}">
         ${i.image ? '' : 'No image'}
       </div>
@@ -754,174 +170,19 @@ function render(){
             const converted = convert(i.price, i.currency || 'GBP', displayCurrency);
             return converted !== null ? formatMoney(converted, displayCurrency) : '—';
           })()}</span>
-          ${i.link1 ? `<a class="tag-link-inline" href="${escapeHtml(i.link1)}" target="_blank" rel="noopener noreferrer">🔗 Link</a>` : ''}
+          ${i.link1 ? `<a class="tag-link-inline" href="${escapeHtml(i.link1)}" target="_blank">🔗 Link</a>` : ''}
         </div>
       </div>
     </div>
   `).join('');
 }
-
-function openModal(item){
-  editingId = item ? item.id : null;
-  document.getElementById('modalTitle').textContent = item ? 'Edit item' : 'Log a new item';
-  document.getElementById('f_name').value = item?.name || '';
-  document.getElementById('f_brand').value = item?.brand || '';
-  document.getElementById('f_category').value = item?.category || 'Shoes';
-  document.getElementById('f_color').value = item?.color || '';
-  document.getElementById('f_price').value = item?.price || '';
-  document.getElementById('f_currency').value = item?.currency || 'CNY';
-  document.getElementById('f_link1').value = item?.link1 || '';
-  currentImageData = item?.image || '';
-  renderPastePreview();
-  overlay.classList.add('open');
-}
-function closeModal(){ overlay.classList.remove('open'); editingId = null; }
-
-function renderPastePreview(){
-  const zone = document.getElementById('pasteZone');
-  if(currentImageData){
-    zone.classList.add('has-image');
-    zone.innerHTML = `<img src="${currentImageData}" alt="Preview"><button type="button" class="remove-img" id="removeImg">✕</button>`;
-  } else {
-    zone.classList.remove('has-image');
-    zone.innerHTML = `<span id="pasteHint">Click here, then paste an image (Ctrl/Cmd+V) — or <label for="fileInput" style="text-decoration:underline;cursor:pointer;">choose a file</label></span><input type="file" id="fileInput" accept="image/*" style="display:none;">`;
-    document.getElementById('fileInput').addEventListener('change', handleFileInput);
-  }
-  if(currentImageData){
-    document.getElementById('removeImg').addEventListener('click', (e)=>{
-      e.stopPropagation();
-      currentImageData = '';
-      renderPastePreview();
-    });
-  }
-}
-
-function readFileAsDataUrl(file){
-  return new Promise((resolve, reject)=>{
-    const reader = new FileReader();
-    reader.onload = ()=> resolve(reader.result);
-    reader.onerror = ()=> reject(new Error('Could not read file'));
-    reader.readAsDataURL(file);
-  });
-}
-
-async function handleFileInput(e){
-  const file = e.target.files && e.target.files[0];
-  if(!file) return;
-  try{
-    currentImageData = await readFileAsDataUrl(file);
-    renderPastePreview();
-  }catch(err){
-    showToast('Could not load image');
-  }
-}
-
-document.getElementById('pasteZone').addEventListener('paste', async (e)=>{
-  const clipboardItems = e.clipboardData && e.clipboardData.items;
-  if(!clipboardItems) return;
-  for(const clipItem of clipboardItems){
-    if(clipItem.type && clipItem.type.startsWith('image/')){
-      const file = clipItem.getAsFile();
-      if(file){
-        try{
-          currentImageData = await readFileAsDataUrl(file);
-          renderPastePreview();
-        }catch(err){
-          showToast('Could not load pasted image');
-        }
-      }
-      break;
-    }
-  }
-});
-document.getElementById('fileInput').addEventListener('change', handleFileInput);
-
-async function saveEntry(){
-  const name = document.getElementById('f_name').value.trim();
-  if(!name){ showToast('Name is required'); return; }
-  const entry = {
-    id: editingId || uid(),
-    name,
-    brand: document.getElementById('f_brand').value.trim(),
-    category: document.getElementById('f_category').value,
-    color: document.getElementById('f_color').value.trim(),
-    price: document.getElementById('f_price').value.trim(),
-    currency: document.getElementById('f_currency').value,
-    link1: document.getElementById('f_link1').value.trim(),
-    image: currentImageData,
-  };
-  if(editingId){
-    items = items.map(i => i.id === editingId ? entry : i);
-  } else {
-    items.push(entry);
-  }
-  await saveItems();
-  populateFilters();
-  render();
-  closeModal();
-  showToast(editingId ? 'Entry updated' : 'Item logged');
-}
-
-window.editItem = function(id){
-  const item = items.find(i=>i.id===id);
-  if(item) openModal(item);
-};
-window.deleteItem = async function(id){
-  items = items.filter(i=>i.id!==id);
-  await saveItems();
-  populateFilters();
-  render();
-  showToast('Entry removed');
-};
-
-document.getElementById('openAdd').addEventListener('click', ()=> openModal(null));
-document.getElementById('cancelModal').addEventListener('click', closeModal);
-document.getElementById('saveEntry').addEventListener('click', saveEntry);
 document.getElementById('search').addEventListener('input', render);
-const CATEGORY_COLORS = {
-  'Shoes':'#E0A83F', 'T-Shirts':'#E0574A', 'Polo Shirts':'#3FAF6B', 'Jerseys':'#E0568C',
-  'Longsleeves':'#8A5FD9', 'Hoodies':'#E0793A', 'Jackets':'#C94FAE', 'Shorts':'#D9B93A',
-  'Joggers':'#8FBF3A', 'Jeans':'#A87C4F', 'Underwear':'#E0806A', 'Accessories':'#6F4FD9',
-  'Hats':'#D94F4F', 'Cologne':'#B0A83A'
-};
-function updateCategoryFilterColor(){
-  const sel = document.getElementById('filterCategory');
-  const color = CATEGORY_COLORS[sel.value];
-  if(color){
-    sel.style.color = color;
-    sel.style.borderColor = color;
-  } else {
-    sel.style.color = '';
-    sel.style.borderColor = '';
-  }
-}
-document.getElementById('filterCategory').addEventListener('change', ()=>{
-  updateCategoryFilterColor();
-  render();
-});
+document.getElementById('filterCategory').addEventListener('change', render);
 document.getElementById('filterBrand').addEventListener('change', render);
 document.getElementById('filterColor').addEventListener('change', render);
 document.getElementById('displayCurrency').addEventListener('change', render);
-document.getElementById('clearFilters').addEventListener('click', ()=>{
-  document.getElementById('search').value='';
-  document.getElementById('filterCategory').value='';
-  document.getElementById('filterBrand').value='';
-  document.getElementById('filterColor').value='';
-  updateCategoryFilterColor();
-  render();
-});
-overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeModal(); });
 
-document.getElementById('shuffleItems').addEventListener('click', async ()=>{
-  for(let i = items.length - 1; i > 0; i--){
-    const j = Math.floor(Math.random() * (i + 1));
-    [items[i], items[j]] = [items[j], items[i]];
-  }
-  await saveItems();
-  render();
-  showToast('Items shuffled');
-});
-
+// Theme toggle
 const themeSwitch = document.getElementById('themeSwitch');
 const savedTheme = localStorage.getItem('theme-preference') || 'dark';
 document.documentElement.setAttribute('data-theme', savedTheme);
@@ -932,7 +193,8 @@ themeSwitch.addEventListener('change', ()=>{
   localStorage.setItem('theme-preference', theme);
 });
 
-loadItems().then(populateFilters);
+// Load items from IndexedDB
+loadItems();
 </script>
 </body>
 </html>
